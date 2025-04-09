@@ -1,4 +1,5 @@
 import re
+import os
 
 class FeatureExtractor:
     def __init__(self, zeopp_command_generator, zeopp_file_analyzer):
@@ -17,6 +18,8 @@ def zeopp_res_command_generator(cif_file, output_file_base):
     return f"./network -res {output_file_base}.res {cif_file}"
 
 def zeopp_res_file_analyzer(output_file_base):
+    assert os.path.exists(output_file_base + '.res'), f"{output_file_base}.res doesn't exist!"
+
     with open(output_file_base + '.res', 'r') as f:
         output_text = f.read()
 
@@ -37,6 +40,8 @@ def zeopp_sa_command_generator(cif_file, output_file_base, chan_radius=0.45, pro
 
 
 def zeopp_sa_file_analyzer(output_file_base):
+    assert os.path.exists(output_file_base + '.sa'), f"{output_file_base}.sa doesn't exist!"
+
     with open(output_file_base + '.sa', 'r') as f:
         output_text = f.read()
 
@@ -91,6 +96,8 @@ def zeopp_vol_command_generator(cif_file, output_file_base, chan_radius=0.45, pr
     return f"./network -vol {chan_radius} {probe_radius} {num_samples} {output_file_base}.vol {cif_file}"
 
 def zeopp_vol_file_analyzer(output_file_base):
+    assert os.path.exists(output_file_base + '.vol'), f"{output_file_base}.vol doesn't exist!"
+
     with open(output_file_base + '.vol', 'r') as f:
         output_text = f.read()
 
