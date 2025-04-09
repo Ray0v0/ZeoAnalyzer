@@ -15,5 +15,4 @@ if __name__ == '__main__':
     )
     cif_dir = "../../database/demo_dataset_1000"
     analyzer.analyse_cifs(cif_dir, zeopp_already_invoked=True)
-    analyzer.cluster_feature_vectors()
-    analyzer.reduce_feature_vectors()
+    analyzer.cluster_reduce_show(img_save="images/t-sne_k-means.png")

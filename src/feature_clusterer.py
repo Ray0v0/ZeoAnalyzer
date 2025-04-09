@@ -4,8 +4,9 @@ from sklearn.preprocessing import StandardScaler
 
 
 class FeatureClusterer:
-    def __init__(self, clustering_algorithm):
+    def __init__(self, clustering_algorithm, algorithm_name):
         self.clustering_algorithm = clustering_algorithm
+        self.algorithm_name = algorithm_name
 
     def cluster(self, feature_vector_dict, cif_files):
         selected_feature_vector_list = []
@@ -28,4 +29,4 @@ def k_means(feature_vectors, n_clusters=5):
     cluster_labels = kmeans.fit_predict(feature_vectors)
     return cluster_labels
 
-k_means_clusterer = FeatureClusterer(k_means)
+k_means_clusterer = FeatureClusterer(k_means, "K-Means")

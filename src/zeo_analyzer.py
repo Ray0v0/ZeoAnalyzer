@@ -1,6 +1,8 @@
 import os
 from concurrent.futures import ThreadPoolExecutor
 
+import numpy as np
+from matplotlib import pyplot as plt
 from tqdm import tqdm
 
 
@@ -88,3 +90,46 @@ class ZeoAnalyzer:
         for i in range(len(selected_cif_files)):
             self.reduced_feature_vector_dict[selected_cif_files[i]] = reduced_feature_vectors[i]
 
+
+    def show(self, selected_cif_files=None, img_save=None):
+        if self.command_output:
+            print("Showing results...")
+
+        if selected_cif_files is None:
+            selected_cif_files = self.cif_file_list
+
+        cluster_label_list = []
+        reduced_feature_vector_list = []
+        for cif_file in selected_cif_files:
+            cluster_label_list.append(self.cluster_label_dict[cif_file])
+            reduced_feature_vector_list.append(self.reduced_feature_vector_dict[cif_file])
+
+        cluster_labels = np.vstack(cluster_label_list)
+        reduced_feature_vectors = np.vstack(reduced_feature_vector_list)
+
+        plt.figure(figsize=(10, 8))
+        scatter = plt.scatter(
+            reduced_feature_vectors[:, 0],
+            reduced_feature_vectors[:, 1],
+            c=cluster_labels,
+            cmap='tab10',
+            s=5,
+            alpha=0.7
+        )
+        plt.title(f'{self.feature_dim_reducer.algorithm_name} Visualization with {self.feature_clusterer.algorithm_name} Clustering')
+        plt.xlabel('Dim 1')
+        plt.ylabel('Dim 2')
+        plt.colorbar(scatter, label='Cluster ID')
+        plt.grid(True)
+        if img_save is not None:
+            img_save_dir = os.path.dirname(img_save)
+            if not os.path.exists(img_save_dir):
+                os.makedirs(img_save_dir)
+            plt.savefig(img_save)
+        else:
+            plt.show()
+
+    def cluster_reduce_show(self, selected_cif_files=None, img_save=None):
+        self.cluster_feature_vectors(selected_cif_files)
+        self.reduce_feature_vectors(selected_cif_files)
+        self.show(selected_cif_files, img_save)

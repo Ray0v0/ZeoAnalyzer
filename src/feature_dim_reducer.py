@@ -4,8 +4,9 @@ from sklearn.preprocessing import StandardScaler
 
 
 class FeatureDimReducer:
-    def __init__(self, reduction_algorithm):
+    def __init__(self, reduction_algorithm, algorithm_name):
         self.reduction_algorithm = reduction_algorithm
+        self.algorithm_name = algorithm_name
 
     def reduce(self, feature_vector_dict, cif_files):
         selected_feature_vector_list = []
@@ -28,4 +29,4 @@ def t_sne(feature_vectors):
     feature_vectors_tsne = t_sne.fit_transform(feature_vectors)
     return feature_vectors_tsne
 
-t_sne_reducer = FeatureDimReducer(t_sne)
+t_sne_reducer = FeatureDimReducer(t_sne, "t-SNE")
