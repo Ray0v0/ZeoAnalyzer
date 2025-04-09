@@ -2,10 +2,10 @@ import numpy as np
 
 class FeatureVectorGenerator:
     def __init__(self, dict_list_to_vector):
-        self.dict_list_to_vector = dict_list_to_vector
+        self.dict_list_to_vectors = dict_list_to_vector
 
-    def generate_feature_vector(self, feature_dict_list):
-        return self.dict_list_to_vector(feature_dict_list)
+    def generate_feature_vectors(self, feature_dict_list):
+        return self.dict_list_to_vectors(feature_dict_list)
 
 # 定义 feature_concatenator
 

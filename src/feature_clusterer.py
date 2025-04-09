@@ -24,7 +24,7 @@ class FeatureClusterer:
 # 定义k-means聚类器
 
 def k_means(feature_vectors, n_clusters=5):
-    kmeans = KMeans(n_clusters=n_clusters, random_state=42)
+    kmeans = KMeans(n_clusters=n_clusters, n_init='auto', random_state=42)
     cluster_labels = kmeans.fit_predict(feature_vectors)
     return cluster_labels
 
