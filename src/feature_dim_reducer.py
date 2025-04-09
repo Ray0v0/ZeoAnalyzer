@@ -1,6 +1,8 @@
 import numpy as np
+from sklearn.decomposition import PCA
 from sklearn.manifold import TSNE
 from sklearn.preprocessing import StandardScaler
+import umap
 
 
 class FeatureDimReducer:
@@ -30,3 +32,21 @@ def t_sne(feature_vectors):
     return feature_vectors_tsne
 
 t_sne_reducer = FeatureDimReducer(t_sne, "t-SNE")
+
+# 定义umap降维器
+
+def umap_algo(feature_vectors):
+    umap_algo = umap.UMAP()
+    feature_vectors_umap = umap_algo.fit_transform(feature_vectors)
+    return feature_vectors_umap
+
+umap_reducer = FeatureDimReducer(umap_algo, "UMAP")
+
+# 定义pca降维器
+
+def pca(feature_vectors):
+    pca = PCA(n_components=2)
+    feature_vectors_pca = pca.fit_transform(feature_vectors)
+    return feature_vectors_pca
+
+pca_reducer = FeatureDimReducer(pca, "PCA")

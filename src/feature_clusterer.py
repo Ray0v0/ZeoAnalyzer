@@ -1,5 +1,5 @@
 import numpy as np
-from sklearn.cluster import KMeans
+from sklearn.cluster import KMeans, DBSCAN
 from sklearn.preprocessing import StandardScaler
 
 
@@ -30,3 +30,12 @@ def k_means(feature_vectors, n_clusters=5):
     return cluster_labels
 
 k_means_clusterer = FeatureClusterer(k_means, "K-Means")
+
+# 定义dbscan聚类器
+
+def dbscan(feature_vectors, eps=0.5, min_samples=5):
+    dbscan = DBSCAN(eps=eps, min_samples=min_samples)
+    cluster_labels = dbscan.fit_predict(feature_vectors)
+    return cluster_labels
+
+dbscan_clusterer = FeatureClusterer(dbscan, "DBSCAN")
