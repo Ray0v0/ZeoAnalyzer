@@ -63,7 +63,7 @@ class ZeoAnalyzer:
             feature_dict_list.append(feature_extractor.analyse_zeopp_file(output_file_base))
 
         # 向量化并存入以文件名为索引的字典中
-        feature_vector = self.feature_vector_generator.generate_feature_vectors(feature_dict_list)
+        feature_vector = self.feature_vector_generator.generate_feature_vector(feature_dict_list)
         self.feature_vector_dict[cif_file] = feature_vector
 
     def cluster_feature_vectors(self, selected_cif_files=None):
@@ -101,6 +101,8 @@ class ZeoAnalyzer:
         cluster_label_list = []
         reduced_feature_vector_list = []
         for cif_file in selected_cif_files:
+            assert cif_file in self.cluster_label_dict, f"{cif_file} not in {self.cluster_label_dict}!"
+            assert cif_file in self.reduced_feature_vector_dict, f"{cif_file} not in {self.reduced_feature_vector_dict}!"
             cluster_label_list.append(self.cluster_label_dict[cif_file])
             reduced_feature_vector_list.append(self.reduced_feature_vector_dict[cif_file])
 
