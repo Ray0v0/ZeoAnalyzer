@@ -6,10 +6,11 @@ from tqdm import tqdm
 
 
 class ZeoAnalyzer:
-    def __init__(self, feature_extractors, output_dir="../output/"):
+    def __init__(self, feature_extractors, feature_vector_generator, output_dir="../output/"):
         self.feature_extractors = feature_extractors
+        self.feature_vector_generator = feature_vector_generator
         self.output_dir = output_dir
-        self.feature_dict_list_dict = {}
+        self.feature_vector_dict = {}
         self.zeopp_already_invoked = False
 
     def set_zeopp_already_invoked(self, zeopp_already_invoked):
@@ -51,13 +52,11 @@ class ZeoAnalyzer:
         feature_dict_list = []
         for feature_extractor in self.feature_extractors:
             if not self.zeopp_already_invoked:
-                command = feature_extractor.generate_zeopp_command(cif_file, output_file_base)
-                self.zeopp_execute_command(command)
+                feature_extractor.extract_features(cif_file, output_file_base)
             feature_dict_list.append(feature_extractor.analyse_zeopp_file(output_file_base))
 
-        # 存入以文件名为索引的字典中
-        self.feature_dict_list_dict[cif_file] = feature_dict_list
+        # 向量化并存入以文件名为索引的字典中
+        feature_vector = self.feature_vector_generator(feature_dict_list)
+        self.feature_vector_dict[cif_file] = feature_vector
 
-    @staticmethod
-    def zeopp_execute_command(command):
-        subprocess.run(command, stdout=subprocess.DEVNULL, shell=True, check=True)
+

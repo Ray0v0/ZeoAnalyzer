@@ -1,5 +1,6 @@
 import re
 import os
+import subprocess
 
 class FeatureExtractor:
     def __init__(self, zeopp_command_generator, zeopp_file_analyzer):
@@ -11,6 +12,14 @@ class FeatureExtractor:
 
     def analyse_zeopp_file(self, output_file_base):
         return self.zeopp_file_analyzer(output_file_base)
+
+    def extract_features(self, cif_file, output_file_base):
+        command = self.generate_zeopp_command(cif_file, output_file_base)
+        self.zeopp_execute_command(command)
+
+    @staticmethod
+    def zeopp_execute_command(command):
+        subprocess.run(command, stdout=subprocess.DEVNULL, shell=True, check=True)
 
 # 定义zeopp -res
 
@@ -142,3 +151,4 @@ def zeopp_vol_file_analyzer(output_file_base):
     return feature_dict
 
 zeopp_vol = FeatureExtractor(zeopp_vol_command_generator, zeopp_vol_file_analyzer)
+
