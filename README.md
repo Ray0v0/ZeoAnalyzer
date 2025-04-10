@@ -118,7 +118,7 @@ class FeatureVectorGenerator:
 
 #### clustering_algorithm
 
-`clustering_algorithm`的输入为由n个特征向量`feature_vector`组成的nd-numpy数组`feature_vectors`，输出为1d-numpy数组`cluster_labels`，表示聚类标签。
+`clustering_algorithm`的输入为由n个特征向量`feature_vector`组成的2d-numpy数组`feature_vectors`，输出为1d-numpy数组`cluster_labels`，表示聚类标签。
 
 #### 代码定义
 
